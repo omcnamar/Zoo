@@ -1,6 +1,8 @@
 package com.olegsagenadatrytwo.zoo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final ArrayList<String> categories = new ArrayList<>();
+//        final ArrayList<String> categories = new ArrayList<>();
 //        categories.add(AnimalsCategoryListSchema.MAMMALS);
 //        categories.add(AnimalsCategoryListSchema.BIRDS);
 //        categories.add(AnimalsCategoryListSchema.REPTILES);
@@ -24,16 +26,18 @@ public class MainActivity extends AppCompatActivity {
 //        for(String cat : categories){
 //            databaseHelper.saveNewCategory(cat);
 //        }
-//        Animal dog = new Animal(AnimalsCategoryListSchema.MAMMALS, AnimalsCategoryListSchema.Mammals.DOG, "Dog food", null);
-//        Animal cat = new Animal(AnimalsCategoryListSchema.MAMMALS, AnimalsCategoryListSchema.Mammals.CAT, "Cat food", null);
-//        Animal eagle = new Animal(AnimalsCategoryListSchema.BIRDS, AnimalsCategoryListSchema.Birds.EAGLE, "Fish", null);
-//        Animal falcon = new Animal(AnimalsCategoryListSchema.BIRDS, AnimalsCategoryListSchema.Birds.FALCON, "Other Birds", null);
-//        Animal snake = new Animal(AnimalsCategoryListSchema.REPTILES, AnimalsCategoryListSchema.Reptile.SNAKE, "Mouse", null);
-//        Animal lizard = new Animal(AnimalsCategoryListSchema.REPTILES, AnimalsCategoryListSchema.Reptile.LIZARD, "Bugs", null);
-//        Animal frog = new Animal(AnimalsCategoryListSchema.AMPHIBIANS, AnimalsCategoryListSchema.Amphibians.FROG, "Bugs", null);
-//        Animal bullFrog = new Animal(AnimalsCategoryListSchema.AMPHIBIANS, AnimalsCategoryListSchema.Amphibians.BULLFROG, "Bugs", null);
-//        Animal merostomata = new Animal(AnimalsCategoryListSchema.ARTHROPODS, AnimalsCategoryListSchema.Arthropods.MEROSTOMATA, "Worms", null);
-//        Animal pycnogonida = new Animal(AnimalsCategoryListSchema.ARTHROPODS, AnimalsCategoryListSchema.Arthropods.PYCNOGONIDA, "Stuff", null);
+//        Bitmap icon = BitmapFactory.decodeResource(this.getResources(),
+//                R.drawable.zoo);
+//        Animal dog = new Animal(AnimalsCategoryListSchema.MAMMALS, AnimalsCategoryListSchema.Mammals.DOG, "Dog food", icon);
+//        Animal cat = new Animal(AnimalsCategoryListSchema.MAMMALS, AnimalsCategoryListSchema.Mammals.CAT, "Cat food", icon);
+//        Animal eagle = new Animal(AnimalsCategoryListSchema.BIRDS, AnimalsCategoryListSchema.Birds.EAGLE, "Fish", icon);
+//        Animal falcon = new Animal(AnimalsCategoryListSchema.BIRDS, AnimalsCategoryListSchema.Birds.FALCON, "Other Birds", icon);
+//        Animal snake = new Animal(AnimalsCategoryListSchema.REPTILES, AnimalsCategoryListSchema.Reptile.SNAKE, "Mouse", icon);
+//        Animal lizard = new Animal(AnimalsCategoryListSchema.REPTILES, AnimalsCategoryListSchema.Reptile.LIZARD, "Bugs", icon);
+//        Animal frog = new Animal(AnimalsCategoryListSchema.AMPHIBIANS, AnimalsCategoryListSchema.Amphibians.FROG, "Bugs", icon);
+//        Animal bullFrog = new Animal(AnimalsCategoryListSchema.AMPHIBIANS, AnimalsCategoryListSchema.Amphibians.BULLFROG, "Bugs", icon);
+//        Animal merostomata = new Animal(AnimalsCategoryListSchema.ARTHROPODS, AnimalsCategoryListSchema.Arthropods.MEROSTOMATA, "Worms", icon);
+//        Animal pycnogonida = new Animal(AnimalsCategoryListSchema.ARTHROPODS, AnimalsCategoryListSchema.Arthropods.PYCNOGONIDA, "Stuff", icon);
 //        databaseHelper.saveNewAnimal(dog);
 //        databaseHelper.saveNewAnimal(cat);
 //        databaseHelper.saveNewAnimal(eagle);

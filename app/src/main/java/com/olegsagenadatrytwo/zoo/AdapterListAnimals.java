@@ -36,6 +36,7 @@ public class AdapterListAnimals extends RecyclerView.Adapter<AdapterListAnimals.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.tvAnimalName.setText(animals.get(position).getName());
+        holder.ivAnimalImage.setImageBitmap(animals.get(position).getImage());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

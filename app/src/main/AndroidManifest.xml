@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".AnimalDetailActivity">
         </activity>
+        <activity android:name=".AddCategoryActivity">
+        </activity>
     </application>
 
 </manifest>

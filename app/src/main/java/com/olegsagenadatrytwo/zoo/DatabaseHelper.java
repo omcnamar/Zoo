@@ -59,13 +59,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         //convert Bitmap to byte array
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        animal.getImage().compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        byte[] byteArray = stream.toByteArray();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        animal.getImage().compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
         contentValues.put(AnimalsCategoryListSchema.Animal.Columns.CATEGORY, animal.getCategory());
         contentValues.put(AnimalsCategoryListSchema.Animal.Columns.ANIMALNAME, animal.getName());
         contentValues.put(AnimalsCategoryListSchema.Animal.Columns.EATS, animal.getEats());
-        //contentValues.put(AnimalsCategoryListSchema.Animal.Columns.IMAGE, byteArray);
+        contentValues.put(AnimalsCategoryListSchema.Animal.Columns.IMAGE, byteArray);
         long saved = database.insert(AnimalsCategoryListSchema.Animal.NAME, null, contentValues);
         return saved;
     }
@@ -78,17 +78,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return saved;
     }
 
+    public long deleteCategory(String category){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String[] v = new String[]{category};
+        long result = database.delete(AnimalsCategoryListSchema.Category.NAME,
+                AnimalsCategoryListSchema.Category.Columns.CATEGORY + "=?", v);
+        return result;
+    }
+
     public long updateExistingAnimal(Animal a) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         //convert Bitmap to byte array
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        myContact.getImage().compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        byte[] byteArray = stream.toByteArray();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        a.getImage().compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
         contentValues.put(AnimalsCategoryListSchema.Animal.Columns.CATEGORY, a.getCategory());
         contentValues.put(AnimalsCategoryListSchema.Animal.Columns.ANIMALNAME, a.getName());
         contentValues.put(AnimalsCategoryListSchema.Animal.Columns.EATS, a.getEats());
-        //contentValues.put(AnimalsCategoryListSchema.Animal.Columns.CATEGORY, a.getCategory());
+        contentValues.put(AnimalsCategoryListSchema.Animal.Columns.IMAGE, byteArray);
 
         String[] v = new String[]{String.valueOf(a.getId())};
         long result = database.update(AnimalsCategoryListSchema.Animal.NAME, contentValues, "id=?", v);
@@ -126,8 +134,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                byte[] array = cursor.getBlob(3);
-                Bitmap bitmap  = BitmapFactory.decodeByteArray(array, 0, array.length);
+                byte[] array = cursor.getBlob(4);
+                Bitmap bitmap;
+                if(array.length == 0){
+                    bitmap  = BitmapFactory.decodeByteArray(array, 0, 20);
+                }else{
+                    bitmap  = BitmapFactory.decodeByteArray(array, 0, array.length);
+                }
+                bitmap  = BitmapFactory.decodeByteArray(array, 0, array.length);
                 Animal a = new Animal(cursor.getString(1), cursor.getString(2), cursor.getString(3), bitmap);
                 a.setId(Integer.parseInt(cursor.getString(0)));
                 listOfAnimals.add(a);

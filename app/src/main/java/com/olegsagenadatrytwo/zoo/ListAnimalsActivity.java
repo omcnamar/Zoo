@@ -7,6 +7,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 
@@ -56,5 +59,24 @@ public class ListAnimalsActivity extends AppCompatActivity {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         adapterListAnimals.setAnimals(databaseHelper.getAnimals(category));
         adapterListAnimals.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_action_bar_for_list_animals, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_add_newAnimal:
+                Intent intent = new Intent(this, AnimalDetailActivity.class);
+                intent.putExtra(AnimalsCategoryListSchema.CATEGORY,category);
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 }

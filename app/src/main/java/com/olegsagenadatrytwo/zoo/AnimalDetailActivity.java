@@ -1,6 +1,11 @@
 package com.olegsagenadatrytwo.zoo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +17,7 @@ import java.util.ArrayList;
 
 public class AnimalDetailActivity extends AppCompatActivity {
 
+    private static final int CAMERA_REQUEST = 1;
     private ImageView ivAnimalImage;
     private EditText etCategory;
     private EditText etName;
@@ -32,10 +38,26 @@ public class AnimalDetailActivity extends AppCompatActivity {
         if(intent != null){
 
             animal = (Animal) intent.getParcelableExtra("animal");
-            etCategory.setText(animal.getCategory());
-            etName.setText(animal.getName());
-            etEats.setText(animal.getEats());
+            if(animal == null){
+                String category = intent.getStringExtra(AnimalsCategoryListSchema.CATEGORY);
+                animal = new Animal("","","",null);
+                animal.setCategory(category);
+                etCategory.setText(category);
+            }else {
+                etCategory.setText(animal.getCategory());
+                etName.setText(animal.getName());
+                etEats.setText(animal.getEats());
+                ivAnimalImage.setImageBitmap(animal.getImage());
+            }
         }
+
+        ivAnimalImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(camera, CAMERA_REQUEST);
+            }
+        });
 
     }
 
@@ -50,7 +72,18 @@ public class AnimalDetailActivity extends AppCompatActivity {
             animal.setCategory(etCategory.getText().toString());
             animal.setName(etName.getText().toString());
             animal.setEats(etEats.getText().toString());
-            long result = databaseHelper.updateExistingAnimal(animal);
+            animal.setImage(((BitmapDrawable)ivAnimalImage.getDrawable()).getBitmap());
+            long result = -1;
+            if(animal.getId() == 0){
+                if(animal.getImage() == null){
+                    Bitmap icon = BitmapFactory.decodeResource(this.getResources(),
+                        R.drawable.zoo);
+                    animal.setImage(icon);
+                }
+                result = databaseHelper.saveNewAnimal(animal);
+            }else{
+                result = databaseHelper.updateExistingAnimal(animal);
+            }
             if(result != -1){
                 Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
             }else{
@@ -69,5 +102,20 @@ public class AnimalDetailActivity extends AppCompatActivity {
             databaseHelper.deleteAnimal(animal);
             onBackPressed();
         }
+    }
+    @Override
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+
+            Bundle extras = data.getExtras();
+
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            ivAnimalImage.setImageBitmap(imageBitmap);
+
+        }
+
     }
 }
